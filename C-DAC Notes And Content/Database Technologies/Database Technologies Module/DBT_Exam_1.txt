@@ -1,0 +1,156 @@
+create database restaurant;
+
+use restaurant;
+
+
+create table res_department (dept_id int, dept_name varchar(30));
+
+create table res_employee (emp_id int, emp_name varchar(30), mob_no int, emp_dep_id int);
+
+create table res_menu (menu_id int, menu_name varchar(20), taste varchar(30));
+
+create table res_customer (cus_id int, cus_name varchar(30), food_name varchar(10), food_id int);
+
+create table res_rating (rating int, rat_name varchar(30), rat_id_cus int);
+
+
+alter table res_department
+add primary key(dept_id);
+
+alter table res_employee
+add primary key(emp_id);
+
+alter table res_menu
+add primary key(menu_id);
+
+alter table res_customer
+add primary key(cus_id);
+
+alter table res_rating
+add primary key(rat_name);
+
+
+
+
+insert into res_department values
+(1, 'owner'),
+(2, 'manager'),
+(3, 'server'),
+(4, 'foodmaker'),
+(5, 'cashier');
+
+
+insert into res_employee values
+(1, 'Shubham', 1234, 1),
+(2, 'Sujal', 12345, 2),
+(3, 'Sai', 123456, 3),
+(4, 'Rahul', 12345543, 4),
+(5, 'Shau', 123, 5),
+(6, 'Rahul', 12344646, 4);
+
+
+insert into res_menu values
+(1, 'paneer', 'spicy'),
+(2, 'chineese', 'hot'),
+(3, 'chiken', 'spicy'),
+(4, 'fish', 'spicy and tasty'),
+(5, 'milk', 'hot');
+
+
+insert into res_customer values
+(1, 'Shu', 'paneer', 1),
+(2, 'Suj', 'paneer', 1),
+(3, 'Pushkar', 'milk', 5),
+(4, 'Raj', 'fish', 4),
+(5, 'Sid', 'chiken', 3);
+
+insert into res_rating values 
+(5, 'Shu', 1),
+(4, 'Suj', 2),
+(4, 'Pushkar', 3),
+(5, 'Raj', 4),
+(5, 'Sid', 5);
+
+
+alter table res_employee
+add foreign key(emp_dep_id) references res_department(dept_id);
+
+alter table res_customer
+add foreign key(food_id) references res_menu(menu_id);
+
+alter table res_rating
+add foreign key(rat_id_cus) references res_customer(cus_id);
+
+
+select emp_id, emp_name, emp_dep_id from res_employee 
+where emp_id>=2 or emp_dep_id >=3;
+
+
+select count(emp_id) as total_no_of_foodmaker from res_employee 
+group by emp_dep_id;
+
+
+alter table res_menu
+add column cost int;
+
+update res_menu set cost = 150 where menu_id=1;
+update res_menu set cost = 250 where menu_id=2;
+update res_menu set cost = 300 where menu_id=3;
+update res_menu set cost = 150 where menu_id=4;
+update res_menu set cost = 10 where menu_id=5;
+
+select max(cost) as costliest_dish from res_menu;
+
+
+
+create view res_emp_view as
+select * from res_employee;
+
+select * from res_emp_view;
+
+update res_emp_view set emp_name = 'Rahul Talole' where emp_id=6;
+
+
+
+select d.dept_name, e.emp_id, e.emp_name from
+res_department as d
+left join res_employee as e
+on d.dept_id=e.emp_dep_id;
+
+
+
+create temporary table menu_chinese (Chinese varchar(30));
+
+insert into menu_chinese values ('chiken lollipop'), ('noodles');
+
+drop table menu_chienese;
+
+
+
+delimiter //
+create procedure even_no
+begin
+declare i int default 1;
+loop_even : loop
+if mod(i,2)=0 
+then select i as evenno;
+end if;
+set i=i+1;
+leave i=11;
+end loop loop_even;
+end //
+delimiter ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
