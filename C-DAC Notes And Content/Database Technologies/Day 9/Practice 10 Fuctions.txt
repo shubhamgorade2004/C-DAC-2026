@@ -1,0 +1,61 @@
+delimiter //
+create function message1()
+returns varchar(30)
+deterministic
+no sql
+reads sql data
+begin
+return 'hello world';
+end //
+delimiter ;
+
+
+delimiter //
+create function multiply(n int)
+returns int
+deterministic 
+no sql
+reads sql data
+begin
+return n*n;
+end //
+delimiter ;
+
+
+delimiter //
+create function multiply2(n int, m decimal(10,2))
+returns decimal(10,2)
+deterministic 
+no sql
+reads sql data
+begin
+return n*m;
+end //
+delimiter ;
+
+
+delimiter // 
+create function get_grade1(s_marks int) 
+Returns varchar(2) 
+deterministic
+no sql
+reads sql data
+begin 
+if s_marks >= 90 then 
+return 'A+'; 
+elseif s_marks >= 80 then  
+return 'A'; 
+elseif s_marks >= 70 then 
+return 'B'; 
+elseif s_marks >= 60 then  
+return 'C'; 
+elseif s_marks >= 50 then 
+return 'D'; 
+else return 'F'; 
+end if; 
+end // 
+delimiter ; 
+
+
+
+
